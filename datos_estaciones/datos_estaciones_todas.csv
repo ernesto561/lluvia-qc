@@ -1,0 +1,84 @@
+Estacion.Id,Estacion,Nestacion,rio,SATID,timestep,Estado,id_thresh,min_act
+62,Picacho,Picacho,Ninguno,pending,5,Working,1,20
+35,Boqueron,Boqueron,Ninguno,pending,10,Working,2,0
+39,San Vicente,San Vicente,Ninguno,pending,10,Working,3,0
+37,Acajutla,Acajutla,Ninguno,pending,10,Working,4,0
+152,AgrC Ahuachapan,AgrC Ahuachapan,Ninguno,pending,10,Working,5,0
+149,AgrC Chalatenango,AgrC Chalatenango,Ninguno,pending,10,Working,6,0
+72,Apaneca,Apaneca,Ninguno,pending,5,Working,7,0
+265,APANECA MET,APANECA MET,Ninguno,pending,10,Working,8,0
+97,Apopa,Apopa,Ninguno,pending,5,Working,9,0
+104,Atalaya,Atalaya,Ninguno,pending,5,Working,10,0
+28,Belloso,Belloso,Ninguno,pending,5,Working,11,0
+124,Berlin Met,Berlin Met,Ninguno,pending,10,Working,12,0
+119,Can La Frontera,Can La Frontera,Ninguno,pending,10,Working,13,0
+82,Chirilagua,Chirilagua,Ninguno,pending,5,Working,14,0
+250,CitalaR,CitalaR,Ninguno,pending,5,Working,15,0
+127,Ciudad Barrios,Ciudad Barrios,Ninguno,pending,10,Working,16,0
+103,Cojutepeque,Cojutepeque,Ninguno,pending,5,Working,17,0
+76,Comasagua,Comasagua,Ninguno,pending,5,Working,18,0
+38,Concep Oriente,Concep Oriente,Ninguno,pending,5,Working,19,0
+123,Concep Quezalte,Concep Quezalte,Ninguno,pending,10,Working,20,0
+85,Conchagua,Conchagua,Ninguno,pending,5,Working,21,0
+128,El Camalote,El Camalote,Ninguno,pending,5,Working,22,0
+116,El Imposible,El Imposible,Ninguno,pending,10,Working,23,0
+20,El Jobo,El Jobo,Ninguno,pending,5,Working,24,0
+129,El Jocote,El Jocote,Ninguno,pending,5,Working,25,0
+255,El Naranjo,El Naranjo,Ninguno,pending,5,Working,26,0
+42,El Pacayal,El Pacayal,Ninguno,pending,10,Working,27,0
+106,El Piro,El Piro,Ninguno,pending,5,Working,28,0
+17,El Sauce,El Sauce,Ninguno,pending,5,Working,29,0
+2,El Zapotillo,El Zapotillo,Ninguno,pending,5,Working,30,0
+270,ENA-SanAndres,ENA-SanAndres,Ninguno,pending,10,Working,31,0
+64,Guacotecti,Guacotecti,Ninguno,pending,10,Working,32,0
+21,Hachadura,Hachadura,Ninguno,pending,5,Working,33,0
+120,Hda Melara,Hda Melara,Ninguno,pending,10,Working,34,0
+78,Ilobasco,Ilobasco,Ninguno,pending,5,Working,35,0
+4,Ilopango,Ilopango,Ninguno,pending,10,Working,36,0
+54,Ishuatan,Ishuatan,Ninguno,pending,10,Working,37,0
+111,Izalco,Izalco,Ninguno,pending,5,Working,38,0
+263,JALPONGA,JALPONGA,Ninguno,pending,5,Working,39,0
+50,Jerusalem,Jerusalem,Ninguno,pending,5,Working,40,0
+121,Jucuaran,Jucuaran,Ninguno,pending,10,Working,41,0
+267,LaBermeja,LaBermeja,Ninguno,pending,5,Working,42,0
+118,La Palma,La Palma,Ninguno,pending,10,Working,43,0
+89,Laquesera,Laquesera,Ninguno,pending,5,Working,44,0
+11,Las Flores,Las Flores,Ninguno,pending,5,Working,45,0
+40,Las Pilas,Las Pilas,Ninguno,pending,10,Working,46,0
+31,La Union,La Union,Ninguno,pending,10,Working,47,0
+58,Los Naranjos,Los Naranjos,Ninguno,pending,5,Working,48,0
+86,Melara,Melara,Ninguno,pending,5,Working,49,0
+49,Metapan,Metapan,Ninguno,pending,5,Working,50,0
+257,Metayate,Metayate,Ninguno,pending,5,Working,51,0
+59,Montecristo,Montecristo,Ninguno,pending,5,Working,52,0
+66,Moropala,Moropala,Ninguno,pending,5,Working,53,0
+112,Nueva Esparta,Nueva Esparta,Ninguno,pending,5,Working,54,0
+252,Nuevo Cuscatlan,Nuevo Cuscatlan,Ninguno,pending,5,Working,55,0
+9,Osicala,Osicala,Ninguno,pending,5,Working,56,0
+75,Panchimalco,Panchimalco,Ninguno,pending,5,Working,57,0
+91,Pasaquina,Pasaquina,Ninguno,pending,5,Working,58,0
+143,Paso del Oso,Paso del Oso,Ninguno,pending,5,Working,59,0
+96,Perquin,Perquin,Ninguno,pending,10,Working,60,0
+36,PROCAFE,PROCAFE,Ninguno,pending,5,Working,61,0
+271,Providencia1,Providencia1,Ninguno,pending,5,Working,62,0
+117,Pte Cuscatlan,Pte Cuscatlan,Ninguno,pending,5,Working,63,0
+65,Pto Parada,Pto Parada,Ninguno,pending,5,Working,64,0
+18,Puente Viejo,Puente Viejo,Ninguno,pending,5,Working,65,0
+19,San Fco Gotera,San Fco Gotera,Ninguno,pending,5,Working,66,0
+88,Sanisidro,Sanisidro,Ninguno,pending,5,Working,67,0
+258,San Lorenzo,San Lorenzo,Ninguno,pending,5,Working,68,0
+32,San Miguel,San Miguel,Ninguno,pending,10,Working,69,0
+253,San Simón,San Simón,Ninguno,pending,5,Working,70,0
+33,Santa Ana,Santa Ana,Ninguno,pending,10,Working,71,0
+108,Sensunapan,Sensunapan,Ninguno,pending,5,Working,72,0
+115,Sesori,Sesori,Ninguno,pending,5,Working,73,0
+10,S Marcos Lempa,S Marcos Lempa,Ninguno,pending,5,Working,74,0
+107,Stgo de Maria,Stgo de Maria,Ninguno,pending,5,Working,75,0
+90,S Vicente hidro,S Vicente hidro,Ninguno,pending,5,Working,76,0
+12,Tamarindo,Tamarindo,Ninguno,pending,5,Working,77,0
+51,Tepezontes,Tepezontes,Ninguno,pending,5,Working,78,0
+61,UES,UES,Ninguno,pending,10,Working,79,0
+44,Vado Marin,Vado Marin,Ninguno,pending,5,Working,80,0
+133,VolcanSMiguel 2,VolcanSMiguel 2,Ninguno,pending,10,Working,81,0
+114,Zaragoza,Zaragoza,Ninguno,pending,5,Working,82,0
+264,Zoologico,Zoologico,Ninguno,pending,5,Working,83,0
