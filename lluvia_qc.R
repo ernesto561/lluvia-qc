@@ -355,9 +355,10 @@ server <- function(input, output, session) {
                  theme(strip.background = element_blank())+labs(y="lluvia acumulada (mm)")
       
       plot_ly(selectedData(), x=~selectedData()$fecha, y = ~selectedData()$valores, color = ~selectedData()$qc_lluvia_acum, mode="lines+markers") %>%
-        layout(xaxis = list(title = 'fecha'), 
+        layout(title = list(text = paste0('Lluvia acumulada ', input$est), x=0),
+               xaxis = list(title = 'fecha'), 
                yaxis = list(title = 'lluvia acumulada (mm)'),
-               legend = list(orientation = 'h', xanchor = 'left', y=1.1, title = list(text = 'Lluvia acumulada')))
+               legend = list(orientation = 'h', xanchor = 'left', y=1.0, title = list(text = 'Lluvia acumulada')))
       
       #ggplotly(pp) #%>% layout(legend = list(orientation = 'h', xanchor = 'left', y=1.1, title = list(text = 'Lluvia corregida')))
       
