@@ -329,6 +329,19 @@ error=function(cond) {
   print("Unable to connect to Database.")
 })
 
+sql_createtable <- 'CREATE TABLE IF NOT EXISTS qctable(
+"Estacion" text,
+est_id numeric,
+medicion numeric,
+medicion_interp numeric,
+lluvia_inst_corr numeric,
+error numeric,
+id SERIAL PRIMARY KEY,
+fecha TIMESTAMPTZ	
+);'
+
+
+dbSendQuery(con, sql_createtable)
 dbWriteTable(con, "qctable", lluvia_7_dias_inst, append=TRUE)
 
 # # Define UI for application 
