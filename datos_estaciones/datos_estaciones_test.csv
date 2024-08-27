@@ -1,2 +1,2 @@
-Estacion.Id,Estacion,Nestacion,rio,SATID,timestep,Estado,id_thresh,min_act
+estacion.id,estacion,nestacion,rio,satid,timestep,estado,id_thresh,min_act
 267,La Bermeja,La Bermeja,Ninguno,pending,5,Working,3,30

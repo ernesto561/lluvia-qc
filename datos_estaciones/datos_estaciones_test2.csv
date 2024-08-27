@@ -1,4 +1,4 @@
-Estacion.Id,Estacion,Nestacion,rio,SATID,timestep,Estado,id_thresh,min_act
+estacion.id,estacion,nestacion,rio,satid,timestep,estado,id_thresh,min_act
 62,Picacho,Picacho,Ninguno,pending,5,Working,1,20
 75,Panchimalco,Panchimalco,Ninguno,pending,5,Working,57,0
 35,Boqueron,Boqueron,Ninguno,pending,10,Working,2,0
