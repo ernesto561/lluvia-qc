@@ -31,9 +31,9 @@ Sys.setenv(TZ='America/El_Salvador')
 #Por ejemplo, Picacho actualiza a los 40 minutos de cada hora, pero en esa actualización
 #el último dato es de los 20 minutos de cada hora
 sourceref <- read.csv("./datos_estaciones/datos_estaciones_test2.csv", fileEncoding="latin1")
-sourceref <- sourceref[which(sourceref$Estado != "Not Working"), ]
+sourceref <- sourceref[which(sourceref$estado != "Not Working"), ]
 #Lista de id de estaciones
-idlist <- as.vector(sourceref$Estacion.Id)
+idlist <- as.vector(sourceref$estacion.id)
 
 #fechas de consulta (7 días hacia atrás incluyendo fecha actual)
 fecha1 <- Sys.Date() - 7
@@ -47,22 +47,22 @@ wrn.month <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"
 gd.month <- c(as.character(1:12))
 
 #Dataframe con los datos de todas las estaciones para los 7 días anteriores.
-lluvia_7_dias <- data.frame(Estacion = character(), est_id = numeric(), fecha = as.POSIXct(character()), medicion = numeric())
+lluvia_7_dias <- data.frame(estacion = character(), est_id = numeric(), fecha = as.POSIXct(character()), medicion = numeric())
 
 #Loop de repaso por cada id (cada estación)
 for (i in 1:length(idlist)) {
   print(idlist[i])
-  currloc <- as.vector(sourceref[which(sourceref$Estacion.Id == idlist[i]), ][[3]])[1] #Estación actualmente examinada
-  thresh_id <- as.vector(sourceref[which(sourceref$Estacion.Id == idlist[i]), ][[8]])[1] #Estación actualmente examinada
-  time_step <- as.vector(sourceref[which(sourceref$Estacion.Id == idlist[i]), ][[6]])[1] # Paso de tiempo en minutos
+  currloc <- as.vector(sourceref[which(sourceref$estacion.id == idlist[i]), ][[3]])[1] #Estación actualmente examinada
+  thresh_id <- as.vector(sourceref[which(sourceref$estacion.id == idlist[i]), ][[8]])[1] #Estación actualmente examinada
+  time_step <- as.vector(sourceref[which(sourceref$estacion.id == idlist[i]), ][[6]])[1] # Paso de tiempo en minutos
   
   # Generar secuencia completa de tiempos
   time_seq <- seq.POSIXt(from = as.POSIXct(paste0(fecha1, " 00:00"), tz = "America/El_Salvador"), 
                          to = as.POSIXct(floor_date(Sys.time(), "10 min"), tz = "America/El_Salvador"), 
                          by = paste(time_step, "mins"))
   time_seq <- data.frame(fecha = time_seq)
-  # Añadir columnas vacías para Estacion, est_id, id_thresh y medicion
-  time_seq$Estacion <- currloc
+  # Añadir columnas vacías para estacion, est_id, id_thresh y medicion
+  time_seq$estacion <- currloc
   time_seq$est_id <- idlist[i]
   time_seq$id_thresh <- thresh_id
   time_seq$medicion <- NA
@@ -109,20 +109,20 @@ for (i in 1:length(idlist)) {
     # Cambio de columna dia en sumdf a formato fecha
     sumdf$fecha <- strptime(paste0(sumdf$Dia, " ", sumdf$Hora), format = "%m-%d-%Y %H:%M", tz = "America/El_Salvador")
     sumdf$medicion <- as.numeric(sumdf$medicion)
-    sumdf$Estacion <- currloc
+    sumdf$estacion <- currloc
     sumdf$est_id <- idlist[i]
     sumdf$id_thresh <- thresh_id
     
     sumdf <- sumdf %>% 
-      dplyr::select(Estacion, est_id, id_thresh, fecha, medicion)
+      dplyr::select(estacion, est_id, id_thresh, fecha, medicion)
     
     # Completar los pasos de tiempo faltantes
     time_seq <- full_join(time_seq, sumdf, by = "fecha")
-    time_seq$Estacion <- ifelse(is.na(time_seq$Estacion.x), time_seq$Estacion.y, time_seq$Estacion.x)
+    time_seq$estacion <- ifelse(is.na(time_seq$estacion.x), time_seq$estacion.y, time_seq$estacion.x)
     time_seq$est_id <- ifelse(is.na(time_seq$est_id.x), time_seq$est_id.y, time_seq$est_id.x)
     time_seq$id_thresh <- ifelse(is.na(time_seq$id_thresh.x), time_seq$id_thresh.y, time_seq$id_thresh.x)
     time_seq$medicion <- ifelse(is.na(time_seq$medicion.y), time_seq$medicion.x, time_seq$medicion.y)
-    time_seq <- time_seq %>% dplyr::select(Estacion, est_id, id_thresh, fecha, medicion)
+    time_seq <- time_seq %>% dplyr::select(estacion, est_id, id_thresh, fecha, medicion)
     
     lluvia_7_dias <- bind_rows(lluvia_7_dias, time_seq)
   } else {
@@ -130,17 +130,17 @@ for (i in 1:length(idlist)) {
   }
 }
 
-timestep <- sourceref %>% dplyr::select(timestep, Estacion)
+timestep <- sourceref %>% dplyr::select(timestep, estacion)
 lluvia_7_dias <- left_join(lluvia_7_dias, timestep)
 
 #Eliminacion de datos random
 lluvia_7_dias <- lluvia_7_dias %>% dplyr::filter(minute(fecha)%%timestep==0)
 
 #Completar pasos de tiempo para cada estación
-lluvia_7_dias_com_func <- function(est, ts){lluvia_7_dias %>% dplyr::filter(Estacion==est) %>%
-    tidyr::complete(Estacion = est, est_id = est_id, id_thresh = id_thresh, fecha = seq(min(fecha, na.rm = TRUE), max(fecha, na.rm = TRUE), by = ts))}
+lluvia_7_dias_com_func <- function(est, ts){lluvia_7_dias %>% dplyr::filter(estacion==est) %>%
+    tidyr::complete(estacion = est, est_id = est_id, id_thresh = id_thresh, fecha = seq(min(fecha, na.rm = TRUE), max(fecha, na.rm = TRUE), by = ts))}
 
-lluvia_7_dias_com <- pmap(list(sourceref$Estacion, paste0(sourceref$timestep," ", "min")), lluvia_7_dias_com_func) %>%
+lluvia_7_dias_com <- pmap(list(sourceref$estacion, paste0(sourceref$timestep," ", "min")), lluvia_7_dias_com_func) %>%
   bind_rows()
 
 #Agregar columna de hora (fecha_hora). Por algún motivo hay problemas cuando se hace una vez se ha creado un tibble
@@ -160,7 +160,7 @@ lluvia_7_dias_com %<>% mutate(medicion = replace(medicion, medicion < 0, NA))
 #Conversión de lluvia acumulada a lluvia instantánea. Debido a que parece ser que hay problemas con los datos de lluvia instantánea,
 #se usarán lo de lluvia acumulada y se convertirán a instantánea.
 #Se agrupan (group_by) debido a que es un solo df con todas las estaciones, para que la conversión a instantánea sea por estación.
-lluvia_7_dias_inst <- group_by(lluvia_7_dias_com, Estacion) %>% # agrupa por la columna de estacion
+lluvia_7_dias_inst <- group_by(lluvia_7_dias_com, estacion) %>% # agrupa por la columna de estacion
   mutate(lluvia_inst = medicion - lag(medicion, default = medicion[1])) %>%
   ungroup()
 
@@ -172,7 +172,7 @@ lluvia_7_dias_inst <- group_by(lluvia_7_dias_com, Estacion) %>% # agrupa por la 
 max_inst<- 40
 
 #Regla 2: Lluvia acumulada en los que la lluvia instantánea sea mayor que un umbral
-lluvia_7_dias_inst %<>% group_by(Estacion) %>%
+lluvia_7_dias_inst %<>% group_by(estacion) %>%
   mutate(medicion_corr = replace(medicion, (abs(lluvia_inst)>=max_inst & (lag(lluvia_inst)>=0 | is.na(lag(lluvia_inst)))), NA)) %>%
   ungroup()
 
@@ -192,7 +192,7 @@ cummax_na = function(x, na.rm = TRUE) {
 }
 
 #Flag1 asigna TRUE si un valor es menor que todos los anteriores
-lluvia_7_dias_inst %<>% group_by(Estacion) %>% 
+lluvia_7_dias_inst %<>% group_by(estacion) %>% 
   mutate(flag1 = ifelse(medicion_corr >= cummax_na(medicion_corr), FALSE, TRUE)) %>%
   ungroup() 
 
@@ -200,7 +200,7 @@ lluvia_7_dias_inst %<>% group_by(Estacion) %>%
 #https://stackoverflow.com/a/71731518/4268720
 #Flag2 asigna TRUE si hay más de 3 valores consecutivos que sean menores que los anteriores
 
-flag2 <- function(est){df <-lluvia_7_dias_inst %>% dplyr::filter(Estacion==est)
+flag2 <- function(est){df <-lluvia_7_dias_inst %>% dplyr::filter(estacion==est)
 r <- rle(df$flag1)
 r$values <- r$lengths >= 3 & r$values
 
@@ -208,7 +208,7 @@ df$flag2 <- inverse.rle(r)
 return(df)  
 }
 
-lluvia_7_dias_inst_f2 <- map(unique(lluvia_7_dias_inst$Estacion), flag2) %>%
+lluvia_7_dias_inst_f2 <- map(unique(lluvia_7_dias_inst$estacion), flag2) %>%
   bind_rows()
 
 #se eliminan los valores menores que los anteriores, sin tomar en cuenta la regla 4
@@ -217,7 +217,7 @@ lluvia_7_dias_inst_f2 %<>% mutate(medicion_corr2 = replace(medicion_corr, flag1=
 #Regla 4: Lluvia acumulada en el que la que el valor siguiente sea menor que el anterior y se mantenga constante
 lluvia_7_dias_inst_f2 %<>% mutate(medicion_corr3 = medicion_corr2)
 
-value_corr <- function(est){df <-lluvia_7_dias_inst_f2 %>% dplyr::filter(Estacion==est)
+value_corr <- function(est){df <-lluvia_7_dias_inst_f2 %>% dplyr::filter(estacion==est)
 
 #Se obtienen las posiciones de los primeros valores de cada grupo que tiene flag2=T
 flag_pos <- df |>
@@ -250,23 +250,23 @@ return(df)
 
 }
 
-lluvia_7_dias_inst <- map(unique(lluvia_7_dias_inst_f2$Estacion), value_corr) %>%
+lluvia_7_dias_inst <- map(unique(lluvia_7_dias_inst_f2$estacion), value_corr) %>%
   bind_rows()
 
 #Se corre una regla similar la regla 2
 #Regla 2: Lluvia acumulada en los que la lluvia instantánea sea negativa
-lluvia_7_dias_inst %<>% group_by(Estacion) %>%
+lluvia_7_dias_inst %<>% group_by(estacion) %>%
   mutate(medicion_corr3 = replace(medicion_corr3, (lluvia_inst<0 & (lag(lluvia_inst)>=0 | is.na(lag(lluvia_inst)))), NA)) %>%
   ungroup()
 
 #Flag 4: Para el caso en que los valores negativos son constantes, se vuelve a correr la bandera 1,
 #Que identifica valores negativos menores que los anteriores
-lluvia_7_dias_inst %<>% group_by(Estacion) %>% 
+lluvia_7_dias_inst %<>% group_by(estacion) %>% 
   mutate(flag4 = ifelse(medicion_corr3 >= cummax_na(medicion_corr3), FALSE, TRUE)) %>%
   ungroup() 
 
 #La flag 5 es igual que la bandera 2
-flag5 <- function(est){df <-lluvia_7_dias_inst %>% dplyr::filter(Estacion==est)
+flag5 <- function(est){df <-lluvia_7_dias_inst %>% dplyr::filter(estacion==est)
 r <- rle(df$flag4)
 r$values <- r$lengths >= 3 & r$values
 
@@ -275,37 +275,37 @@ df$flag5 <- inverse.rle(r)
 return(df)  
 }
 
-lluvia_7_dias_inst_f2 <- map(unique(lluvia_7_dias_inst$Estacion), flag5) %>%
+lluvia_7_dias_inst_f2 <- map(unique(lluvia_7_dias_inst$estacion), flag5) %>%
   bind_rows()
 
 #se eliminan los valores menores que los anteriores, sin tomar en cuenta la regla 4
 lluvia_7_dias_inst <- lluvia_7_dias_inst_f2 %>% mutate(medicion_corr4 = replace(medicion_corr3, flag4==T & flag5==F, NA))
 
 #Interpolación solamente para datos con 1 NA
-lluvia_7_dias_inst %<>% group_by(Estacion) %>%
+lluvia_7_dias_inst %<>% group_by(estacion) %>%
   mutate(medicion_interp = zoo::na.approx(medicion_corr4, na.rm = FALSE, maxgap=1)) %>%
   ungroup()
 
-lluvia_7_dias_inst <- group_by(lluvia_7_dias_inst, Estacion) %>% # agrupa por la columna de estacion
+lluvia_7_dias_inst <- group_by(lluvia_7_dias_inst, estacion) %>% # agrupa por la columna de estacion
   mutate(lluvia_inst_corr = medicion_interp - lag(medicion_interp, default = medicion_interp[1]),
          error = medicion - medicion_interp) %>%
   ungroup()
 
 lluvia_7_dias_inst <- lluvia_7_dias_inst %>%
-  dplyr::select(Estacion, est_id, fecha, medicion, medicion_interp, lluvia_inst_corr, error)
+  dplyr::select(estacion, est_id, fecha, medicion, medicion_interp, lluvia_inst_corr, error)
 
-est_error <- group_by(lluvia_7_dias_inst, Estacion) %>%
+est_error <- group_by(lluvia_7_dias_inst, estacion) %>%
   dplyr::filter(any(error!=0 | all(is.na(error)))) 
 
-perc_per <- group_by(lluvia_7_dias_inst, Estacion) %>%
+perc_per <- group_by(lluvia_7_dias_inst, estacion) %>%
   dplyr::summarize(nas = sum(is.na(medicion_interp)), 
                    total = n()) %>%
   ungroup() %>%
   mutate(perc_per = round(nas/total*100, 1)) %>%
   arrange(desc(perc_per))
 
-vars1 <- sourceref$Estacion
-vars2 <- unique(est_error$Estacion)
+vars1 <- sourceref$estacion
+vars2 <- unique(est_error$estacion)
 
 data_plot <-lluvia_7_dias_inst %>% 
   pivot_longer(cols = c(medicion, medicion_interp), names_to = "qc_lluvia_acum", values_to = "valores")
@@ -330,7 +330,7 @@ error=function(cond) {
 })
 
 sql_createtable <- 'CREATE TABLE IF NOT EXISTS qctable(
-"Estacion" text,
+estacion text,
 est_id numeric,
 medicion numeric,
 medicion_interp numeric,
