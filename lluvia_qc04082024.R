@@ -1,6 +1,4 @@
 
-library(shiny)
-
 #############Descarga_lluvia_mod.R#############
 #Este script descarga los datos de lluvia de estaciones automáticas del MARN,
 #convierte a lluvia horaria y al formato usado por el programa THRESH.
